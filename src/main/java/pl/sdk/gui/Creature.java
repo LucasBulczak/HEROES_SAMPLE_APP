@@ -27,7 +27,11 @@ public class Creature {
         if (damageToDeal < 0) {
             damageToDeal = 0;
         }
-        aDefender.currentHp = aDefender.currentHp - damageToDeal;
+
+        int killedUnits = damageToDeal / aDefender.maxHp;
+        int lostHp = damageToDeal % aDefender.maxHp;
+        aDefender.amount = aDefender.amount - killedUnits;
+        aDefender.currentHp = aDefender.currentHp - lostHp;
 
         // counterattack
         if (!aDefender.counterAttack && aDefender.currentHp > 0) {
@@ -35,8 +39,11 @@ public class Creature {
             if (damageToDealInCounterAttack < 0) {
                 damageToDealInCounterAttack = 0;
             }
+            int killedUnitsAfterCounterAttack = damageToDealInCounterAttack / maxHp;
+            int lostHpAfterCounterAttack = damageToDealInCounterAttack % maxHp;
+            amount = amount - killedUnitsAfterCounterAttack;
+            currentHp = currentHp - lostHpAfterCounterAttack;
 
-            currentHp = currentHp - damageToDealInCounterAttack;
             counterAttack = true;
         }
     }
@@ -49,6 +56,8 @@ public class Creature {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(name);
+        sb.append(System.lineSeparator());
+        sb.append(amount);
         sb.append(System.lineSeparator());
         sb.append(currentHp);
         sb.append("/");
