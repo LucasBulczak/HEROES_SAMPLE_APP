@@ -9,8 +9,8 @@ public class CreatureTest {
     @Test
     void defenderShouldLost2HpBecauseOfArmor(){
         //given
-        Creature student = new Creature(1,1, 1, "Student",1);
-        Creature professor = new Creature(1000,500, 500, "Professor",11);
+        Creature student = new Creature(1,1, 1, "Student",1, 1);
+        Creature professor = new Creature(1000,500, 500, "Professor",11, 1);
         //when
         professor.attack(student);
         //then
@@ -20,8 +20,8 @@ public class CreatureTest {
     @Test
     void defenderShouldLost0HpBecauseArmorIsGraterThanAttackerDamage(){
         //given
-        Creature student = new Creature(1,1, 1, "Student",1);
-        Creature professor = new Creature(1000,500, 500, "Professor",11);
+        Creature student = new Creature(1,1, 1, "Student",1, 1);
+        Creature professor = new Creature(1000,500, 500, "Professor",11, 1);
         //when
         student.attack(professor);
         //then
@@ -31,12 +31,23 @@ public class CreatureTest {
     @Test
     void attackerShouldLost1HpBecauseOfCounterAttack(){
         //given
-        Creature student1 = new Creature(1,2, 1, "Student",1);
-        Creature student2 = new Creature(1,2, 1, "Student",1);
+        Creature student1 = new Creature(1,2, 1, "Student",1, 1);
+        Creature student2 = new Creature(1,2, 1, "Student",1, 1);
         //when
         student1.attack(student2);
         //then
         assertEquals(1, student1.getCurrentHp());
+    }
+
+    @Test
+    void attackerShouldLost1UnitFromStackBecauseOfAttack(){
+        //given
+        Creature student1 = new Creature(1,2, 1, "Student",1, 1);
+        Creature student2 = new Creature(1,2, 1, "Student",1, 2);
+        //when
+        student1.attack(student2);
+        //then
+        assertEquals(1, student2.getAmount());
     }
 
 }

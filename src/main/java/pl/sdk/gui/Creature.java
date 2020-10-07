@@ -6,15 +6,17 @@ public class Creature {
     private final int maxHp;
     private final Integer attack;
     private final Integer armor;
+    private int amount;
     private final String name;
     private int currentHp;
     private final int moveRange;
     private boolean counterAttack;
 
-    public Creature(int aMaxHp, Integer aAttack, Integer aArmor, String aName, int aMoveRange) {
+    public Creature(int aMaxHp, Integer aAttack, Integer aArmor, String aName, int aMoveRange, int aAmount) {
         maxHp = aMaxHp;
         attack = aAttack;
         armor = aArmor;
+        amount = aAmount;
         currentHp = maxHp;
         name = aName;
         moveRange = aMoveRange;
@@ -56,5 +58,9 @@ public class Creature {
 
     int getCurrentHp() {
         return currentHp;
+    }
+
+    public int getAmount() {
+        return amount;
     }
 }
