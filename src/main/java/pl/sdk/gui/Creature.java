@@ -9,6 +9,7 @@ public class Creature {
     private final String name;
     private int currentHp;
     private final int moveRange;
+    private boolean counterAttack;
 
     public Creature(int aMaxHp, Integer aAttack, Integer aArmor, String aName, int aMoveRange) {
         maxHp = aMaxHp;
@@ -25,6 +26,17 @@ public class Creature {
             damageToDeal = 0;
         }
         aDefender.currentHp = aDefender.currentHp - damageToDeal;
+
+        // counterattack
+        if (!aDefender.counterAttack && aDefender.currentHp > 0) {
+            int damageToDealInCounterAttack = aDefender.attack - armor;
+            if (damageToDealInCounterAttack < 0) {
+                damageToDealInCounterAttack = 0;
+            }
+
+            currentHp = currentHp - damageToDealInCounterAttack;
+            counterAttack = true;
+        }
     }
 
     int getMoveRange() {
