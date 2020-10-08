@@ -64,7 +64,7 @@ public class CreatureTest {
         //when
         studentX.attack(studentY);
         //then
-        assertEquals(2, studentY.getAmount());
+        assertEquals(-43, studentY.getAmount());
     }
 
     @DisplayName("Defender should remain 1 HP because of attack (2HP lost + few units killed)")
@@ -88,31 +88,32 @@ public class CreatureTest {
         //when
         student1.attack(student2);
         //then
-        assertEquals(1, student1.getAmount());
+        assertEquals(2, student1.getAmount());
     }
 
-    @DisplayName("Attacker should lost 3 units because of counter attack")
+    @DisplayName("Attacker should lost 6 units because of counter attack")
     @Test
-    void attackerShouldLost3UnitBecauseOfCounterAttack(){
+    void attackerShouldLost6UnitBecauseOfCounterAttack(){
         //given
         Creature student1 = new Creature(1,1, 1, "Student 1",1, 10);
         Creature student2 = new Creature(1,4, 1, "Student 2",1, 2);
         //when
         student1.attack(student2);
         //then
-        assertEquals(7, student1.getAmount());
+        assertEquals(4, student1.getAmount());
     }
 
-    @DisplayName("Attacker should remain 8 HP because of attack (2HP lost + few units killed)")
+    @DisplayName("Attacker should remain 8 HP because of counter attack (2HP lost + few units killed)")
     @Test
-    void attackerShouldLost2HpBecauseOfAttack(){
+    void attackerShouldLost2HpBecauseOfCounterAttack(){
         //given
         Creature student1 = new Creature(10,1, 1, "Student 1",1, 10);
         Creature student2 = new Creature(1,33, 1, "Student 2",1, 2);
         //when
         student1.attack(student2);
         //then
-        assertEquals(8, student1.getCurrentHp());
+        assertEquals(6, student1.getCurrentHp());
+        assertEquals(4, student1.getAmount());
     }
 
     @DisplayName("Defender should ont counter attack when no units left")
@@ -150,7 +151,7 @@ public class CreatureTest {
         //when
         waterElemental.attack(fireElemental);
         //then
-        assertEquals(1, fireElemental.getAmount());
+        assertEquals(2, fireElemental.getAmount());
     }
 
     @DisplayName("Fire counter attacks Water")
@@ -162,7 +163,7 @@ public class CreatureTest {
         //when
         waterElemental.attack(fireElemental);
         //then
-        assertEquals(0, waterElemental.getAmount());
+        assertEquals(-2, waterElemental.getAmount());
     }
 
     @DisplayName("Water attacks Earth")
@@ -174,7 +175,7 @@ public class CreatureTest {
         //when
         waterElemental.attack(earthElemental);
         //then
-        assertEquals(1, earthElemental.getAmount());
+        assertEquals(0, earthElemental.getAmount());
     }
 
     @DisplayName("Earth counter attacks Water")
@@ -186,7 +187,7 @@ public class CreatureTest {
         //when
         waterElemental.attack(earthElemental);
         //then
-        assertEquals(0, waterElemental.getAmount());
+        assertEquals(1, waterElemental.getAmount());
     }
 
     @DisplayName("Fire attacks Air")
@@ -198,7 +199,7 @@ public class CreatureTest {
         //when
         fireElemental.attack(airElemental);
         //then
-        assertEquals(1, airElemental.getAmount());
+        assertEquals(2, airElemental.getAmount());
     }
 
     @DisplayName("Air counter attacks Fire")
@@ -210,7 +211,7 @@ public class CreatureTest {
         //when
         fireElemental.attack(airElemental);
         //then
-        assertEquals(0, fireElemental.getAmount());
+        assertEquals(-2, fireElemental.getAmount());
     }
 
     @DisplayName("Fire attacks Water")
@@ -222,7 +223,7 @@ public class CreatureTest {
         //when
         fireElemental.attack(waterElemental);
         //then
-        assertEquals(1, waterElemental.getAmount());
+        assertEquals(0, waterElemental.getAmount());
     }
 
     @DisplayName("Water counter attacks Fire")
@@ -234,7 +235,7 @@ public class CreatureTest {
         //when
         fireElemental.attack(waterElemental);
         //then
-        assertEquals(0, fireElemental.getAmount());
+        assertEquals(1, fireElemental.getAmount());
     }
 
     @DisplayName("Air attacks Earth")
@@ -246,7 +247,7 @@ public class CreatureTest {
         //when
         airElemental.attack(earthElemental);
         //then
-        assertEquals(1, earthElemental.getAmount());
+        assertEquals(2, earthElemental.getAmount());
     }
 
     @DisplayName("Earth counter attacks Air")
@@ -258,7 +259,7 @@ public class CreatureTest {
         //when
         airElemental.attack(earthElemental);
         //then
-        assertEquals(0, airElemental.getAmount());
+        assertEquals(-2, airElemental.getAmount());
     }
 
     @DisplayName("Air attacks Fire")
@@ -270,7 +271,7 @@ public class CreatureTest {
         //when
         airElemental.attack(fireElemental);
         //then
-        assertEquals(1, fireElemental.getAmount());
+        assertEquals(0, fireElemental.getAmount());
     }
 
     @DisplayName("Fire counter attacks Air")
@@ -282,7 +283,7 @@ public class CreatureTest {
         //when
         airElemental.attack(fireElemental);
         //then
-        assertEquals(0, airElemental.getAmount());
+        assertEquals(1, airElemental.getAmount());
     }
 
     @DisplayName("Earth attacks Water")
@@ -294,7 +295,7 @@ public class CreatureTest {
         //when
         earthElemental.attack(waterElemental);
         //then
-        assertEquals(1, waterElemental.getAmount());
+        assertEquals(2, waterElemental.getAmount());
     }
 
     @DisplayName("Water counter attacks Earth")
@@ -306,7 +307,7 @@ public class CreatureTest {
         //when
         earthElemental.attack(waterElemental);
         //then
-        assertEquals(0, earthElemental.getAmount());
+        assertEquals(-2, earthElemental.getAmount());
     }
 
     @DisplayName("Earth attacks Air")
@@ -318,7 +319,7 @@ public class CreatureTest {
         //when
         earthElemental.attack(airElemental);
         //then
-        assertEquals(1, airElemental.getAmount());
+        assertEquals(0, airElemental.getAmount());
     }
 
     @DisplayName("Air counter attacks Earth")
@@ -330,6 +331,6 @@ public class CreatureTest {
         //when
         earthElemental.attack(airElemental);
         //then
-        assertEquals(0, earthElemental.getAmount());
+        assertEquals(1, earthElemental.getAmount());
     }
 }
