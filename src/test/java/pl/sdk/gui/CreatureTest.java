@@ -115,4 +115,29 @@ public class CreatureTest {
         assertEquals(8, student1.getCurrentHp());
     }
 
+    @DisplayName("Defender should ont counter attack when no units left")
+    @Test
+    void defenderShouldNotCounterAttackWhenNoUnitsLeft(){
+        //given
+        Creature student1 = new Creature(1,11, 1, "Student 1",1, 1);
+        Creature student2 = new Creature(1,10, 1, "Student 2",1, 10);
+        //when
+        student1.attack(student2);
+        //then
+        assertEquals(0, student2.getAmount());
+        assertEquals(1, student1.getCurrentHp());
+    }
+
+    @DisplayName("Defender should ont counter attack when no units left (more than enough killed)")
+    @Test
+    void defenderShouldNotCounterAttackWhenNoUnitsLeft2(){
+        //given
+        Creature student1 = new Creature(1,100, 1, "Student 1",1, 1);
+        Creature student2 = new Creature(1,10, 1, "Student 2",1, 10);
+        //when
+        student1.attack(student2);
+        //then
+        assertEquals(-89, student2.getAmount());
+        assertEquals(1, student1.getCurrentHp());
+    }
 }

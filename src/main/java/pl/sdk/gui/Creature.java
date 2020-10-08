@@ -34,7 +34,7 @@ public class Creature {
         aDefender.currentHp = aDefender.currentHp - lostHp;
 
         // counterattack
-        if (!aDefender.counterAttack && aDefender.currentHp > 0) {
+        if (!aDefender.counterAttack && aDefender.currentHp > 0 && aDefender.amount > 0) {
             int damageToDealInCounterAttack = aDefender.attack - armor;
             if (damageToDealInCounterAttack < 0) {
                 damageToDealInCounterAttack = 0;
