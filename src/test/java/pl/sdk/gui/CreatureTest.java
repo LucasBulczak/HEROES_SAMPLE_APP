@@ -333,4 +333,17 @@ public class CreatureTest {
         //then
         assertEquals(1, earthElemental.getAmount());
     }
+
+    @DisplayName("Shooting creature should not be counterattacked.")
+    @Test
+    void shouldNotCounterAttackWhenAttackerIsShooter(){
+        //given
+        Creature attacker = new Creature(100,1, 1, "Student",1,100);
+        Creature defender = new Creature(100,10, 1, "Student",1,100);
+        //when
+        attacker.attack(defender);
+        //then
+        assertEquals(100,attacker.getCurrentHp());
+        assertEquals(100,attacker.getAmount());
+    }
 }
