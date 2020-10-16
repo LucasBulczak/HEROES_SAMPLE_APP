@@ -29,12 +29,16 @@ public class Creature {
             applyDamage(aDefender, damageToDeal);
 
             // counterattack
-            if (canCounterAttack(aDefender)) {
-                int damageToDealInCounterAttack = countDamageToDeal(aDefender, this);
-                damageToDealInCounterAttack = considerElementalMechanic(aDefender, this, damageToDealInCounterAttack);
-                applyDamage(this, damageToDealInCounterAttack);
-                counterAttack = true;
-            }
+            counterattack(aDefender);
+        }
+    }
+
+    protected void counterattack(Creature aDefender) {
+        if (canCounterAttack(aDefender)) {
+            int damageToDealInCounterAttack = countDamageToDeal(aDefender, this);
+            damageToDealInCounterAttack = considerElementalMechanic(aDefender, this, damageToDealInCounterAttack);
+            applyDamage(this, damageToDealInCounterAttack);
+            counterAttack = true;
         }
     }
 
