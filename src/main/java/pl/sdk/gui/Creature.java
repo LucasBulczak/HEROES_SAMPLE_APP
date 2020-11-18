@@ -14,6 +14,10 @@ public class Creature {
     private DamageCalculator damageCalculator;
 
     public Creature(int aMaxHp, Integer aAttack, Integer aArmor, String aName, int aMoveRange, int aAmount) {
+        this(aMaxHp, aAttack, aArmor, aName, aMoveRange, aAmount, new DamageCalculator());
+    }
+
+    public Creature(int aMaxHp, Integer aAttack, Integer aArmor, String aName, int aMoveRange, int aAmount, DamageCalculator aDamageCalculator) {
         maxHp = aMaxHp;
         attack = aAttack;
         armor = aArmor;
@@ -21,7 +25,7 @@ public class Creature {
         currentHp = maxHp;
         name = aName;
         moveRange = aMoveRange;
-        damageCalculator = new DamageCalculator();
+        damageCalculator = aDamageCalculator;
     }
 
     public void attack(Creature aDefender) {
