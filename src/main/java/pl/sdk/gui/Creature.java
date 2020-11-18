@@ -11,13 +11,13 @@ public class Creature {
     private int currentHp;
     private final int moveRange;
     private boolean counterAttack;
-    private DamageCalculator damageCalculator;
+    private CalculateStrategy calculateStrategy;
 
     public Creature(int aMaxHp, Integer aAttack, Integer aArmor, String aName, int aMoveRange, int aAmount) {
-        this(aMaxHp, aAttack, aArmor, aName, aMoveRange, aAmount, new DamageCalculator());
+        this(aMaxHp, aAttack, aArmor, aName, aMoveRange, aAmount, new DefaultCalculateStrategy());
     }
 
-    public Creature(int aMaxHp, Integer aAttack, Integer aArmor, String aName, int aMoveRange, int aAmount, DamageCalculator aDamageCalculator) {
+    public Creature(int aMaxHp, Integer aAttack, Integer aArmor, String aName, int aMoveRange, int aAmount, CalculateStrategy aCalculateStrategy) {
         maxHp = aMaxHp;
         attack = aAttack;
         armor = aArmor;
@@ -25,12 +25,12 @@ public class Creature {
         currentHp = maxHp;
         name = aName;
         moveRange = aMoveRange;
-        damageCalculator = aDamageCalculator;
+        calculateStrategy = aCalculateStrategy;
     }
 
     public void attack(Creature aDefender) {
         if (isAlive()) {
-            int damageToDeal = damageCalculator.calculateDamageToDeal(this, aDefender);
+            int damageToDeal = this.calculateStrategy.calculateDamageToDeal(aDefender, this);
             applyDamage(aDefender, damageToDeal);
 
             // counterattack
@@ -40,7 +40,7 @@ public class Creature {
 
     protected void counterattack(Creature aDefender) {
         if (canCounterAttack(aDefender)) {
-            int damageToDealInCounterAttack = damageCalculator.calculateDamageToDeal(aDefender, this);
+            int damageToDealInCounterAttack = aDefender.calculateStrategy.calculateDamageToDeal(this, aDefender);
             applyDamage(this, damageToDealInCounterAttack);
             counterAttack = true;
         }

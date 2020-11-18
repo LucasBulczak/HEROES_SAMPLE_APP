@@ -1,8 +1,8 @@
 package pl.sdk.gui;
 
-public class DamageCalculator {
+public class ElementalCalculateStrategy implements CalculateStrategy {
 
-    int calculateDamageToDeal(Creature aAttacker, Creature aDefender) {
+    public int calculateDamageToDeal(Creature aDefender, Creature aAttacker) {
         int damageToDeal = (aAttacker.getAttack() - aDefender.getArmor()) * aAttacker.getAmount();
         if (damageToDeal < 0) {
             damageToDeal = 0;

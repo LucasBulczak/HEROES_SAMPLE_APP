@@ -14,10 +14,10 @@ public class ElementalCreatureTest {
 
     @BeforeEach
     void setUp() {
-        waterElemental = new Creature(100, 30, 5, "Water Elemental", 7, 5);
-        fireElemental = new Creature(100, 30, 5, "Fire Elemental", 7, 5);
-        earthElemental = new Creature(100, 30, 5, "Earth Elemental", 7, 5);
-        airElemental = new Creature(100, 30, 5, "Air Elemental", 7, 5);
+        waterElemental = new Creature(100, 30, 5, "Water Elemental", 7, 5, new ElementalCalculateStrategy());
+        fireElemental = new Creature(100, 30, 5, "Fire Elemental", 7, 5, new ElementalCalculateStrategy());
+        earthElemental = new Creature(100, 30, 5, "Earth Elemental", 7, 5, new ElementalCalculateStrategy());
+        airElemental = new Creature(100, 30, 5, "Air Elemental", 7, 5, new ElementalCalculateStrategy());
 
     }
 
