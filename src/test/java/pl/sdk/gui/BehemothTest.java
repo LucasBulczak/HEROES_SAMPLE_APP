@@ -9,7 +9,7 @@ public class BehemothTest {
     @Test
     void behemothShouldIgnore80PercentOfDefence() {
         //given
-        Creature behemoth = new Creature(100,200, 100, "Behemoth",1, 1, new DamageCalculator());
+        Creature behemoth = new Creature(100,200, 100, "Behemoth",1, 1, new DamageCalculatorWithReduceArmorPercentage(80));
         Creature defender = new Creature(1000,100, 100, "Defender",11, 1);
         //when
         behemoth.attack(defender);
