@@ -11,8 +11,13 @@ public class Creature {
     private int currentHp;
     private final int moveRange;
     private boolean counterAttack;
+    private DamageCalculator damageCalculator;
 
     public Creature(int aMaxHp, Integer aAttack, Integer aArmor, String aName, int aMoveRange, int aAmount) {
+        this(aMaxHp, aAttack, aArmor, aName, aMoveRange, aAmount, new DamageCalculator());
+    }
+
+    public Creature(int aMaxHp, Integer aAttack, Integer aArmor, String aName, int aMoveRange, int aAmount, DamageCalculator aDamageCalculator) {
         maxHp = aMaxHp;
         attack = aAttack;
         armor = aArmor;
@@ -20,12 +25,12 @@ public class Creature {
         currentHp = maxHp;
         name = aName;
         moveRange = aMoveRange;
+        damageCalculator = aDamageCalculator;
     }
 
     public void attack(Creature aDefender) {
         if (isAlive()) {
-            int damageToDeal = countDamageToDeal(this, aDefender);
-            damageToDeal = considerElementalMechanic(this, aDefender, damageToDeal);
+            int damageToDeal = damageCalculator.calculateDamageToDeal(this, aDefender);
             applyDamage(aDefender, damageToDeal);
 
             // counterattack
@@ -35,8 +40,7 @@ public class Creature {
 
     protected void counterattack(Creature aDefender) {
         if (canCounterAttack(aDefender)) {
-            int damageToDealInCounterAttack = countDamageToDeal(aDefender, this);
-            damageToDealInCounterAttack = considerElementalMechanic(aDefender, this, damageToDealInCounterAttack);
+            int damageToDealInCounterAttack = damageCalculator.calculateDamageToDeal(aDefender, this);
             applyDamage(this, damageToDealInCounterAttack);
             counterAttack = true;
         }
@@ -53,49 +57,8 @@ public class Creature {
         aDefender.currentHp = aDefender.currentHp - lostHp;
     }
 
-    private int considerElementalMechanic(Creature aAttacker, Creature aDefender, int damageToDeal) {
-        if (aAttacker.name.equals("Water Elemental")) {
-            if (aDefender.name.equals("Fire Elemental")) {
-                damageToDeal = damageToDeal * 2;
-            } else if (aDefender.name.equals("Earth Elemental")) {
-                damageToDeal = (int) Math.round(damageToDeal * 0.5);
-            }
-        } else if (aAttacker.name.equals("Fire Elemental")) {
-            if (aDefender.name.equals("Air Elemental")) {
-                damageToDeal = damageToDeal * 2;
-            } else if (aDefender.name.equals("Water Elemental")) {
-                damageToDeal = (int) Math.round(damageToDeal * 0.5);
-            }
-        } else if (aAttacker.name.equals("Air Elemental")) {
-            if (aDefender.name.equals("Earth Elemental")) {
-                damageToDeal = damageToDeal * 2;
-            } else if (aDefender.name.equals("Fire Elemental")) {
-                damageToDeal = (int) Math.round(damageToDeal * 0.5);
-            }
-        } else if (aAttacker.name.equals("Earth Elemental")) {
-            if (aDefender.name.equals("Water Elemental")) {
-                damageToDeal = damageToDeal * 2;
-            } else if (aDefender.name.equals("Air Elemental")) {
-                damageToDeal = (int) Math.round(damageToDeal * 0.5);
-            }
-        }
-        return damageToDeal;
-    }
-
-    private int countDamageToDeal(Creature aAttacker, Creature aDefender) {
-        int damageToDeal = (aAttacker.attack - aDefender.armor) * aAttacker.amount;
-        if (damageToDeal < 0) {
-            damageToDeal = 0;
-        }
-        return damageToDeal;
-    }
-
     private boolean isAlive() {
         return currentHp > 0 && amount > 0;
-    }
-
-    int getMoveRange() {
-        return moveRange;
     }
 
     @Override
@@ -117,11 +80,27 @@ public class Creature {
         return sb.toString();
     }
 
+    int getMoveRange() {
+        return moveRange;
+    }
+
     int getCurrentHp() {
         return currentHp;
     }
 
-    public int getAmount() {
+    int getAmount() {
         return amount;
+    }
+
+    String getName() {
+        return name;
+    }
+
+    Integer getAttack() {
+        return attack;
+    }
+
+    Integer getArmor() {
+        return armor;
     }
 }
