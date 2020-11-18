@@ -7,6 +7,8 @@ public class TrainingGround {
         if (damageToDeal < 0) {
             damageToDeal = 0;
         }
+        damageToDeal = considerElementalMechanic(aAttacker, aDefender, damageToDeal);
+
         return damageToDeal;
     }
 
