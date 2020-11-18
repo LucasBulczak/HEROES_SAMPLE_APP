@@ -22,18 +22,21 @@ public class MainBattleController {
 
     public MainBattleController() {
 
-        Creature c1 = new Creature(100,30, 5, "Air Elemental",7,5);
-        Creature c2 = new Creature(100,30, 5, "Water Elemental",7,5);
-        Creature c3 = new Creature(100,30, 5, "Earth Elemental",7,5);
-        Creature c4 = new Creature(100,30, 5, "Fire Elemental",7,5);
+        Creature c1 = new Creature(100, 30, 5, "Air Elemental", 7, 5);
+        Creature c2 = new Creature(100, 30, 5, "Water Elemental", 7, 5);
+        Creature c3 = new Creature(100, 30, 5, "Earth Elemental", 7, 5);
+        Creature c4 = new Creature(100, 30, 5, "Fire Elemental", 7, 5);
+        Creature behemoth = CreatureFactory.create("Behemoth");
 
-        board.put(new Point(0,8),c1);
-        board.put(new Point(14,8),c2);
-        board.put(new Point(0,3),c3);
-        board.put(new Point(14,3),c4);
-        putCreaturesToQueue(List.of(c1, c2,c3,c4));
+        board.put(new Point(0, 8), c1);
+        board.put(new Point(14, 8), c2);
+        board.put(new Point(0, 3), c3);
+        board.put(new Point(14, 3), c4);
+        board.put(new Point(7, 5), behemoth);
+        putCreaturesToQueue(List.of(c1, c2, c3, c4, behemoth));
     }
-// ====================================== GUI =====================================
+
+    // ====================================== GUI =====================================
     @FXML
     private void initialize() {
         refreshGui();
@@ -72,7 +75,7 @@ public class MainBattleController {
     }
 
 
-// =============================== LOGIC ==============================
+    // =============================== LOGIC ==============================
     public boolean isMoveAllowed(int x, int y) {
         return !board.containsKey(new Point(x, y)) && new Point(x, y).distance(findCreaturePosition(activeCreature)) <= activeCreature.getMoveRange();
     }
