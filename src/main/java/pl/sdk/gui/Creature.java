@@ -26,7 +26,7 @@ public class Creature {
 
     public void attack(Creature aDefender) {
         if (isAlive()) {
-            int damageToDeal = countDamageToDeal(this, aDefender);
+            int damageToDeal = trainingGround.countDamageToDeal(this, aDefender);
             damageToDeal = trainingGround.considerElementalMechanic(this, aDefender, damageToDeal);
             applyDamage(aDefender, damageToDeal);
 
@@ -37,7 +37,7 @@ public class Creature {
 
     protected void counterattack(Creature aDefender) {
         if (canCounterAttack(aDefender)) {
-            int damageToDealInCounterAttack = countDamageToDeal(aDefender, this);
+            int damageToDealInCounterAttack = trainingGround.countDamageToDeal(aDefender, this);
             damageToDealInCounterAttack = trainingGround.considerElementalMechanic(aDefender, this, damageToDealInCounterAttack);
             applyDamage(this, damageToDealInCounterAttack);
             counterAttack = true;
@@ -55,22 +55,8 @@ public class Creature {
         aDefender.currentHp = aDefender.currentHp - lostHp;
     }
 
-
-
-    private int countDamageToDeal(Creature aAttacker, Creature aDefender) {
-        int damageToDeal = (aAttacker.attack - aDefender.armor) * aAttacker.amount;
-        if (damageToDeal < 0) {
-            damageToDeal = 0;
-        }
-        return damageToDeal;
-    }
-
     private boolean isAlive() {
         return currentHp > 0 && amount > 0;
-    }
-
-    int getMoveRange() {
-        return moveRange;
     }
 
     @Override
@@ -92,15 +78,27 @@ public class Creature {
         return sb.toString();
     }
 
+    int getMoveRange() {
+        return moveRange;
+    }
+
     int getCurrentHp() {
         return currentHp;
     }
 
-    public int getAmount() {
+    int getAmount() {
         return amount;
     }
 
     String getName() {
         return name;
+    }
+
+    Integer getAttack() {
+        return attack;
+    }
+
+    Integer getArmor() {
+        return armor;
     }
 }
