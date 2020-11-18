@@ -13,11 +13,11 @@ public class Creature {
     private boolean counterAttack;
     private CalculateStrategy calculateStrategy;
 
-    public Creature(int aMaxHp, Integer aAttack, Integer aArmor, String aName, int aMoveRange, int aAmount) {
+    Creature(int aMaxHp, Integer aAttack, Integer aArmor, String aName, int aMoveRange, int aAmount) {
         this(aMaxHp, aAttack, aArmor, aName, aMoveRange, aAmount, new DefaultCalculateStrategy());
     }
 
-    public Creature(int aMaxHp, Integer aAttack, Integer aArmor, String aName, int aMoveRange, int aAmount, CalculateStrategy aCalculateStrategy) {
+    Creature(int aMaxHp, Integer aAttack, Integer aArmor, String aName, int aMoveRange, int aAmount, CalculateStrategy aCalculateStrategy) {
         maxHp = aMaxHp;
         attack = aAttack;
         armor = aArmor;
@@ -80,7 +80,7 @@ public class Creature {
         return sb.toString();
     }
 
-    int getMoveRange() {
+    public int getMoveRange() {
         return moveRange;
     }
 

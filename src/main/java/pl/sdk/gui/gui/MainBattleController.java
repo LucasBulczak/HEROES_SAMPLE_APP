@@ -1,15 +1,18 @@
-package pl.sdk.gui;
+package pl.sdk.gui.gui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import pl.sdk.gui.Creature;
+import pl.sdk.gui.CreatureFactory;
+import pl.sdk.gui.MapTile;
 
 import java.awt.Point;
 import java.util.*;
 
-import static pl.sdk.gui.CreatureFactory.BEHEMOTH;
+import static pl.sdk.gui.CreatureFactory.*;
 
 public class MainBattleController {
 
@@ -24,10 +27,10 @@ public class MainBattleController {
 
     public MainBattleController() {
 
-        Creature c1 = new Creature(100, 30, 5, "Air Elemental", 7, 5);
-        Creature c2 = new Creature(100, 30, 5, "Water Elemental", 7, 5);
-        Creature c3 = new Creature(100, 30, 5, "Earth Elemental", 7, 5);
-        Creature c4 = new Creature(100, 30, 5, "Fire Elemental", 7, 5);
+        Creature c1 = CreatureFactory.create(AIR_ELEMENTAL);
+        Creature c2 = CreatureFactory.create(WATER_ELEMENTAL);
+        Creature c3 = CreatureFactory.create(EARTH_ELEMENTAL);
+        Creature c4 = CreatureFactory.create(FIRE_ELEMENTAL);
         Creature behemoth = CreatureFactory.create(BEHEMOTH);
 
         board.put(new Point(0, 8), c1);
