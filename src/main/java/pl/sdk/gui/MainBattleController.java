@@ -9,6 +9,8 @@ import javafx.scene.paint.Color;
 import java.awt.Point;
 import java.util.*;
 
+import static pl.sdk.gui.CreatureFactory.BEHEMOTH;
+
 public class MainBattleController {
 
     private final Map<Point, Creature> board = new HashMap<>();
@@ -26,7 +28,7 @@ public class MainBattleController {
         Creature c2 = new Creature(100, 30, 5, "Water Elemental", 7, 5);
         Creature c3 = new Creature(100, 30, 5, "Earth Elemental", 7, 5);
         Creature c4 = new Creature(100, 30, 5, "Fire Elemental", 7, 5);
-        Creature behemoth = CreatureFactory.create("Behemoth");
+        Creature behemoth = CreatureFactory.create(BEHEMOTH);
 
         board.put(new Point(0, 8), c1);
         board.put(new Point(14, 8), c2);
