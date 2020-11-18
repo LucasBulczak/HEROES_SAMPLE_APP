@@ -8,9 +8,17 @@ public class CreatureFactoryTest {
 
     @Test
     void shouldCreateBehemoth(){
+        String behemoth = "Behemoth";
+        Creature beh = CreatureFactory.create(behemoth);
 
-        Creature beh = CreatureFactory.create("Behemoth");
+        assertEquals(behemoth, beh.getName());
+    }
 
-        assertEquals("Behemoth", beh.getName());
+    @Test
+    void shouldCreateAirElemental(){
+        String airElementalName = "Air Elemental";
+        Creature airElemental = CreatureFactory.create(airElementalName);
+
+        assertEquals(airElementalName, airElemental.getName());
     }
 }

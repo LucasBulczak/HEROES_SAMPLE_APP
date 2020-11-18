@@ -1,6 +1,7 @@
 package pl.sdk.gui;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,96 +14,158 @@ class ElementalCreatureTest {
     private Creature fireElemental;
 
     @BeforeEach
-    void initElemental(){
-        airElemental = new Creature(100,30, 5, "Air Elemental",7,5, new ElementalCalculateStrategy());
-        waterElemental = new Creature(100,30, 5, "Water Elemental",7,5, new ElementalCalculateStrategy());
-        earthElemental = new Creature(100,30, 5, "Earth Elemental",7,5, new ElementalCalculateStrategy());
-        fireElemental = new Creature(100,30, 5, "Fire Elemental",7,5, new ElementalCalculateStrategy());
+    void initElemental() {
+        airElemental = new Creature(100, 30, 5, "Air Elemental", 7, 5, new ElementalCalculateStrategy());
+        waterElemental = new Creature(100, 30, 5, "Water Elemental", 7, 5, new ElementalCalculateStrategy());
+        earthElemental = new Creature(100, 30, 5, "Earth Elemental", 7, 5, new ElementalCalculateStrategy());
+        fireElemental = new Creature(100, 30, 5, "Fire Elemental", 7, 5, new ElementalCalculateStrategy());
     }
 
+    @DisplayName("Air attacks Earth")
     @Test
-    void airElementalShouldDealHalfDamageToFireElemental(){
-        airElemental.attack(fireElemental);
-        assertEquals(37,fireElemental.getCurrentHp());
-        assertEquals(5,fireElemental.getAmount());
-    }
-
-    @Test
-    void airElementalShouldDealDoubleDamageToEarthElemental(){
+    void airElementalShouldAttackEarthElementalWithDoubledDamage() {
+        //when
         airElemental.attack(earthElemental);
-        assertEquals(50,earthElemental.getCurrentHp());
-        assertEquals(3,earthElemental.getAmount());
+        //then
+        assertEquals(50, earthElemental.getCurrentHp());
+        assertEquals(3, earthElemental.getAmount());
+
+        assertEquals(62, airElemental.getCurrentHp());
+        assertEquals(5, airElemental.getAmount());
     }
 
+    @DisplayName("Air attacks Fire")
     @Test
-    void airElementalShouldNotChangeDamageForWaterElemental(){
+    void airElementalShouldAttackFireElementalWithHalfOfdDamage() {
+        //when
+        airElemental.attack(fireElemental);
+        //then
+        assertEquals(37, fireElemental.getCurrentHp());
+        assertEquals(5, fireElemental.getAmount());
+
+        assertEquals(50, airElemental.getCurrentHp());
+        assertEquals(3, airElemental.getAmount());
+    }
+
+    @DisplayName("Air attacks Water")
+    @Test
+    void airElementalShouldNotChangeDamageForWaterElemental() {
         airElemental.attack(waterElemental);
-        assertEquals(75,waterElemental.getCurrentHp());
-        assertEquals(4,waterElemental.getAmount());
+        assertEquals(75, waterElemental.getCurrentHp());
+        assertEquals(4, waterElemental.getAmount());
+
+        assertEquals(100, airElemental.getCurrentHp());
+        assertEquals(4, airElemental.getAmount());
     }
 
+    @DisplayName("Earth attacks Water")
     @Test
-    void fireElementalShouldDealHalfDamageToWaterElemental(){
-        fireElemental.attack(waterElemental);
-        assertEquals(37,waterElemental.getCurrentHp());
-        assertEquals(5,waterElemental.getAmount());
-    }
-
-    @Test
-    void fireElementalShouldDealDoubleDamageToAirElemental(){
-        fireElemental.attack(airElemental);
-        assertEquals(50,airElemental.getCurrentHp());
-        assertEquals(3,airElemental.getAmount());
-    }
-
-    @Test
-    void fireElementalShouldNotChangeDamageForEarthElemental(){
-        fireElemental.attack(earthElemental);
-        assertEquals(75,earthElemental.getCurrentHp());
-        assertEquals(4,earthElemental.getAmount());
-    }
-
-
-    @Test
-    void earthElementalShouldDealHalfDamageToAirElemental(){
-        earthElemental.attack(airElemental);
-        assertEquals(37,airElemental.getCurrentHp());
-        assertEquals(5,airElemental.getAmount());
-    }
-
-    @Test
-    void earthElementalShouldDealDoubleDamageToWaterElemental() {
+    void earthElementalShouldAttackWaterElementalWithDoubledDamage() {
+        //when
         earthElemental.attack(waterElemental);
-        assertEquals(50,waterElemental.getCurrentHp());
-        assertEquals(3,waterElemental.getAmount());
+        //then
+        assertEquals(50, waterElemental.getCurrentHp());
+        assertEquals(3, waterElemental.getAmount());
+
+        assertEquals(62, earthElemental.getCurrentHp());
+        assertEquals(5, earthElemental.getAmount());
     }
 
+    @DisplayName("Earth attacks Fire")
     @Test
-    void earthElementalShouldNotChangeDamageForFireElemental(){
+    void earthElementalShouldNotChangeDamageForFireElemental() {
         earthElemental.attack(fireElemental);
-        assertEquals(75,fireElemental.getCurrentHp());
-        assertEquals(4,fireElemental.getAmount());
+        assertEquals(75, fireElemental.getCurrentHp());
+        assertEquals(4, fireElemental.getAmount());
+
+        assertEquals(100, earthElemental.getCurrentHp());
+        assertEquals(4, earthElemental.getAmount());
     }
 
-
+    @DisplayName("Earth attacks Air")
     @Test
-    void waterElementalShouldDealHalfDamageToEarthElemental(){
+    void earthElementalShouldAttackAirElementalWithHalfOfdDamage() {
+        //when
+        earthElemental.attack(airElemental);
+        //then
+        assertEquals(37, airElemental.getCurrentHp());
+        assertEquals(5, airElemental.getAmount());
+
+        assertEquals(50, earthElemental.getCurrentHp());
+        assertEquals(3, earthElemental.getAmount());
+    }
+
+    @DisplayName("Fire attacks Air")
+    @Test
+    void fireElementalShouldAttackAirElementalWithDoubledDamage() {
+        //when
+        fireElemental.attack(airElemental);
+        //then
+        assertEquals(50, airElemental.getCurrentHp());
+        assertEquals(3, airElemental.getAmount());
+
+        assertEquals(62, fireElemental.getCurrentHp());
+        assertEquals(5, fireElemental.getAmount());
+    }
+
+    @DisplayName("Fire attacks Earth")
+    @Test
+    void fireElementalShouldNotChangeDamageForEarthElemental() {
+        fireElemental.attack(earthElemental);
+        assertEquals(75, earthElemental.getCurrentHp());
+        assertEquals(4, earthElemental.getAmount());
+
+        assertEquals(100, fireElemental.getCurrentHp());
+        assertEquals(4, fireElemental.getAmount());
+    }
+
+    @DisplayName("Fire attacks Water")
+    @Test
+    void fireElementalShouldAttackWaterElementalWithHalfOfdDamage() {
+        //when
+        fireElemental.attack(waterElemental);
+        //then
+        assertEquals(37, waterElemental.getCurrentHp());
+        assertEquals(5, waterElemental.getAmount());
+
+        assertEquals(50, fireElemental.getCurrentHp());
+        assertEquals(3, fireElemental.getAmount());
+    }
+
+    @DisplayName("Water attacks Earth")
+    @Test
+    void waterElementalShouldAttackEarthElementalWithHalfOfdDamage() {
+        //when
         waterElemental.attack(earthElemental);
-        assertEquals(37,earthElemental.getCurrentHp());
-        assertEquals(5,earthElemental.getAmount());
+        //then
+        assertEquals(37, earthElemental.getCurrentHp());
+        assertEquals(5, earthElemental.getAmount());
+
+        assertEquals(50, waterElemental.getCurrentHp());
+        assertEquals(3, waterElemental.getAmount());
     }
 
+    @DisplayName("Water attacks Fire")
     @Test
-    void waterElementalShouldDealDoubleDamageToFireElemental(){
+    void waterElementalShouldAttackFireElementalWithDoubledDamage() {
+        //when
         waterElemental.attack(fireElemental);
-        assertEquals(50,fireElemental.getCurrentHp());
-        assertEquals(3,fireElemental.getAmount());
+        //then
+        assertEquals(50, fireElemental.getCurrentHp());
+        assertEquals(3, fireElemental.getAmount());
+
+        assertEquals(62, waterElemental.getCurrentHp());
+        assertEquals(5, waterElemental.getAmount());
     }
 
+    @DisplayName("Water attacks Air")
     @Test
-    void waterElementalShouldNotChangeDamageForAirElemental(){
+    void waterElementalShouldNotChangeDamageForAirElemental() {
         waterElemental.attack(airElemental);
-        assertEquals(75,airElemental.getCurrentHp());
-        assertEquals(4,airElemental.getAmount());
+        assertEquals(75, airElemental.getCurrentHp());
+        assertEquals(4, airElemental.getAmount());
+
+        assertEquals(100, waterElemental.getCurrentHp());
+        assertEquals(4, waterElemental.getAmount());
     }
 }

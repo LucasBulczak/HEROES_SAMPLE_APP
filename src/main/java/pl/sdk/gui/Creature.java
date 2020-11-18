@@ -1,6 +1,5 @@
 package pl.sdk.gui;
 
-
 import pl.sdk.gui.gui.GuiTileIf;
 
 public class Creature implements GuiTileIf {
@@ -8,9 +7,9 @@ public class Creature implements GuiTileIf {
     private final int maxHp;
     private final Integer attack;
     private final Integer armor;
+    private int amount;
     private final String name;
     private int currentHp;
-    private int amount;
     private final int moveRange;
     private boolean counterAttack;
     private CalculateStrategy damageCalculator;
@@ -23,10 +22,10 @@ public class Creature implements GuiTileIf {
         maxHp = aMaxHp;
         attack = aAttack;
         armor = aArmor;
+        amount = aAmount;
         currentHp = maxHp;
         name = aName;
         moveRange = aMoveRange;
-        amount = aAmount;
         damageCalculator = aDamageCalculator;
     }
 
@@ -66,17 +65,6 @@ public class Creature implements GuiTileIf {
         return currentHp > 0 && amount > 0;
     }
 
-    public int getMoveRange() {
-        return moveRange;
-    }
-
-    public Integer getAttack() {
-        return attack;
-    }
-
-    public Integer getArmor() {
-        return armor;
-    }
 
     @Override
     public String toString() {
@@ -95,6 +83,18 @@ public class Creature implements GuiTileIf {
         sb.append("/");
         sb.append(maxHp);
         return sb.toString();
+    }
+
+    public Integer getAttack() {
+        return attack;
+    }
+
+    public Integer getArmor() {
+        return armor;
+    }
+
+    public int getMoveRange() {
+        return moveRange;
     }
 
     int getCurrentHp() {

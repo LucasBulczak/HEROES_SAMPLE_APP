@@ -1,15 +1,17 @@
 package pl.sdk.gui;
 
-public class ReduceArmorPercentageCalculateStrategy implements CalculateStrategy {
+public class ReduceArmorPercentageCalculateStrategy extends ElementalCalculateStrategy {
 
     private int armorPercentageReduce;
-    public ReduceArmorPercentageCalculateStrategy(int aArmorToReduce) {
-        armorPercentageReduce = aArmorToReduce;
+
+    ReduceArmorPercentageCalculateStrategy(int armorPercentageReduce) {
+        this.armorPercentageReduce = armorPercentageReduce;
     }
 
     @Override
     public int calculateDamageToDeal(Creature aDefender, Creature aAttacker) {
-        int damageToDeal = (aAttacker.getAttack() - (aDefender.getArmor() - aDefender.getArmor() * armorPercentageReduce/100)) * aAttacker.getAmount();
+        int reducedArmor = aDefender.getArmor() - aDefender.getArmor() * armorPercentageReduce / 100;
+        int damageToDeal = (aAttacker.getAttack() - reducedArmor) * aAttacker.getAmount();
         if (damageToDeal < 0) {
             damageToDeal = 0;
         }

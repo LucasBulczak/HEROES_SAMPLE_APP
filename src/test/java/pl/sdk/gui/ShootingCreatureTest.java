@@ -1,10 +1,13 @@
 package pl.sdk.gui;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ShootingCreatureTest {
+
+    @DisplayName("Shooting creature should not be counterattacked.")
 
     @Test
     void shouldNotCounterAttackWhenAttackerIsShooter(){

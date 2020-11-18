@@ -12,6 +12,7 @@ import pl.sdk.gui.MapTile;
 import java.awt.Point;
 import java.util.*;
 
+import static pl.sdk.gui.CreatureFactory.*;
 
 public class MainBattleController {
 
@@ -25,11 +26,11 @@ public class MainBattleController {
     private Button passButton;
 
     public MainBattleController() {
-        Creature c1 = CreatureFactory.create(CreatureFactory.AIR_ELEMENTAL);
-        Creature c2 = CreatureFactory.create(CreatureFactory.EARTH_ELEMENTAL);
-        Creature c3 = CreatureFactory.create(CreatureFactory.FIRE_ELEMENTAL);
-        Creature c4 = CreatureFactory.create(CreatureFactory.WATER_ELEMENTAL);
-        Creature beh = CreatureFactory.create(CreatureFactory.BEHEMOTH);
+        Creature c1 = create(AIR_ELEMENTAL);
+        Creature c2 = create(EARTH_ELEMENTAL);
+        Creature c3 = create(FIRE_ELEMENTAL);
+        Creature c4 = create(WATER_ELEMENTAL);
+        Creature beh = create(BEHEMOTH);
 
         board.put(new Point(0,8),c1);
         board.put(new Point(14,8),c2);
@@ -44,7 +45,8 @@ public class MainBattleController {
         board.put(new Point(7,2),new RockObstacle());
         putCreaturesToQueue(List.of(c1, c2,c3,c4,beh));
     }
-// ====================================== GUI =====================================
+
+    // ====================================== GUI =====================================
     @FXML
     private void initialize() {
         refreshGui();
@@ -83,7 +85,7 @@ public class MainBattleController {
     }
 
 
-// =============================== LOGIC ==============================
+    // =============================== LOGIC ==============================
     public boolean isMoveAllowed(int x, int y) {
         boolean isMovePossible = true;
         if (board.containsKey(new Point(x, y))){
