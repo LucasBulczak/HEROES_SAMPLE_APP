@@ -1,7 +1,9 @@
 package pl.sdk.gui;
 
 
-public class Creature {
+import pl.sdk.gui.gui.GuiTileIf;
+
+public class Creature implements GuiTileIf {
 
     private final int maxHp;
     private final Integer attack;
@@ -11,8 +13,13 @@ public class Creature {
     private int amount;
     private final int moveRange;
     private boolean counterAttack;
+    private CalculateStrategy damageCalculator;
 
-    public Creature(int aMaxHp, Integer aAttack, Integer aArmor, String aName, int aMoveRange, int aAmount) {
+    Creature(int aMaxHp, Integer aAttack, Integer aArmor, String aName, int aMoveRange, int aAmount) {
+        this(aMaxHp, aAttack, aArmor, aName, aMoveRange, aAmount, new DefaultCalculateStrategy());
+    }
+
+    Creature(int aMaxHp, Integer aAttack, Integer aArmor, String aName, int aMoveRange, int aAmount, CalculateStrategy aDamageCalculator) {
         maxHp = aMaxHp;
         attack = aAttack;
         armor = aArmor;
@@ -20,20 +27,27 @@ public class Creature {
         name = aName;
         moveRange = aMoveRange;
         amount = aAmount;
+        damageCalculator = aDamageCalculator;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void attack(Creature aDefender) {
         if (isAlive()) {
-            int damageToDeal = countDamageToDeal(aDefender, this);
-            damageToDeal = considerElementalMechanic(aDefender, this, damageToDeal);
+            int damageToDeal = damageCalculator.calculateDamageToDeal(aDefender, this);
             applyDamage(aDefender, damageToDeal);
 
-            if (canCounterAttack(aDefender)) {
-                int damageToDealInCounterAttack = countDamageToDeal(this, aDefender);
-                damageToDealInCounterAttack = considerElementalMechanic(this, aDefender, damageToDealInCounterAttack);
-                applyDamage(this, damageToDealInCounterAttack);
-                aDefender.counterAttack=true;
-            }
+            ca(aDefender);
+        }
+    }
+
+    protected void ca(Creature aDefender) {
+        if (canCounterAttack(aDefender)) {
+            int damageToDealInCounterAttack = aDefender.damageCalculator.calculateDamageToDeal(this, aDefender);
+            applyDamage(this, damageToDealInCounterAttack);
+            aDefender.counterAttack = true;
         }
     }
 
@@ -48,58 +62,29 @@ public class Creature {
         aDefender.currentHp = aDefender.currentHp - lostHp;
     }
 
-    private int considerElementalMechanic(Creature aDefender, Creature aAttacker, int damageToDeal) {
-        if (aAttacker.name.equals("Water Elemental")) {
-            if (aDefender.name.equals("Fire Elemental")) {
-                damageToDeal = damageToDeal * 2;
-            } else if (aDefender.name.equals("Earth Elemental")) {
-                damageToDeal = (int) Math.round(damageToDeal * 0.5);
-            }
-        } else if (aAttacker.name.equals("Fire Elemental")) {
-            if (aDefender.name.equals("Air Elemental")) {
-                damageToDeal = damageToDeal * 2;
-            } else if (aDefender.name.equals("Water Elemental")) {
-                damageToDeal = (int) Math.round(damageToDeal * 0.5);
-            }
-        } else if (aAttacker.name.equals("Air Elemental")) {
-            if (aDefender.name.equals("Earth Elemental")) {
-                damageToDeal = damageToDeal * 2;
-            } else if (aDefender.name.equals("Fire Elemental")) {
-                damageToDeal = (int) Math.round(damageToDeal * 0.5);
-            }
-        } else if (aAttacker.name.equals("Earth Elemental")) {
-            if (aDefender.name.equals("Water Elemental")) {
-                damageToDeal = damageToDeal * 2;
-            } else if (aDefender.name.equals("Air Elemental")) {
-                damageToDeal = (int) Math.round(damageToDeal * 0.5);
-            }
-        }
-        return damageToDeal;
-    }
-
-    private int countDamageToDeal(Creature aDefender, Creature aAttacker) {
-        int damageToDeal = (aAttacker.attack - aDefender.armor) * aAttacker.amount;
-        if (damageToDeal < 0) {
-            damageToDeal = 0;
-        }
-        return damageToDeal;
-    }
-
     private boolean isAlive() {
         return currentHp > 0 && amount > 0;
     }
 
-    int getMoveRange() {
+    public int getMoveRange() {
         return moveRange;
+    }
+
+    public Integer getAttack() {
+        return attack;
+    }
+
+    public Integer getArmor() {
+        return armor;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         String[] splitName = name.split(" ");
-        for (int i = 0; i < splitName.length; i++){
+        for (int i = 0; i < splitName.length; i++) {
             sb.append(splitName[i]);
-            if (i != splitName.length-1){
+            if (i != splitName.length - 1) {
                 sb.append(System.lineSeparator());
             }
         }
@@ -118,5 +103,15 @@ public class Creature {
 
     int getAmount() {
         return amount;
+    }
+
+    @Override
+    public boolean isMovePossible() {
+        return false;
+    }
+
+    @Override
+    public boolean isAttackPossible() {
+        return true;
     }
 }

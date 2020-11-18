@@ -1,17 +1,21 @@
-package pl.sdk.gui;
+package pl.sdk.gui.gui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import pl.sdk.gui.Creature;
+import pl.sdk.gui.CreatureFactory;
+import pl.sdk.gui.MapTile;
 
 import java.awt.Point;
 import java.util.*;
 
+
 public class MainBattleController {
 
-    private final Map<Point, Creature> board = new HashMap<>();
+    private final Map<Point, GuiTileIf> board = new HashMap<>();
     private Creature activeCreature;
     private final Queue<Creature> creaturesQueue = new LinkedList<>();
 
@@ -21,16 +25,24 @@ public class MainBattleController {
     private Button passButton;
 
     public MainBattleController() {
-        Creature c1 = new Creature(100,30, 5, "Air Elemental",7,5);
-        Creature c2 = new Creature(100,30, 5, "Water Elemental",7,5);
-        Creature c3 = new Creature(100,30, 5, "Earth Elemental",7,5);
-        Creature c4 = new Creature(100,30, 5, "Fire Elemental",7,5);
+        Creature c1 = CreatureFactory.create(CreatureFactory.AIR_ELEMENTAL);
+        Creature c2 = CreatureFactory.create(CreatureFactory.EARTH_ELEMENTAL);
+        Creature c3 = CreatureFactory.create(CreatureFactory.FIRE_ELEMENTAL);
+        Creature c4 = CreatureFactory.create(CreatureFactory.WATER_ELEMENTAL);
+        Creature beh = CreatureFactory.create(CreatureFactory.BEHEMOTH);
 
         board.put(new Point(0,8),c1);
         board.put(new Point(14,8),c2);
         board.put(new Point(0,3),c3);
         board.put(new Point(14,3),c4);
-        putCreaturesToQueue(List.of(c1, c2,c3,c4));
+        board.put(new Point(7,5),beh);
+        board.put(new Point(7,6),new LavaObstacle());
+        board.put(new Point(7,7),new RockObstacle());
+        board.put(new Point(7,8),new RockObstacle());
+        board.put(new Point(7,4),new LavaObstacle());
+        board.put(new Point(7,3),new RockObstacle());
+        board.put(new Point(7,2),new RockObstacle());
+        putCreaturesToQueue(List.of(c1, c2,c3,c4,beh));
     }
 // ====================================== GUI =====================================
     @FXML
@@ -50,7 +62,7 @@ public class MainBattleController {
     }
 
     private void createTile(int aX, int aY) {
-        Creature creature = board.get(new Point(aX, aY));
+        GuiTileIf creature = board.get(new Point(aX, aY));
         MapTile tile = new MapTile("");
         if (creature != null) {
             tile.setName(creature.toString());
@@ -73,7 +85,11 @@ public class MainBattleController {
 
 // =============================== LOGIC ==============================
     public boolean isMoveAllowed(int x, int y) {
-        return !board.containsKey(new Point(x, y)) && new Point(x, y).distance(findCreaturePosition(activeCreature)) <= activeCreature.getMoveRange();
+        boolean isMovePossible = true;
+        if (board.containsKey(new Point(x, y))){
+            isMovePossible = board.get(new Point(x,y)).isMovePossible();
+        }
+        return isMovePossible && new Point(x, y).distance(findCreaturePosition(activeCreature)) <= activeCreature.getMoveRange();
     }
 
     public void move(int x, int y) {
@@ -84,13 +100,14 @@ public class MainBattleController {
     }
 
     public void attack(int x, int y) {
-        activeCreature.attack(board.get(new Point(x, y)));
+        activeCreature.attack((Creature)board.get(new Point(x, y)));
         refreshGui();
         pass();
     }
 
     public boolean isAttackPossible(int x, int y) {
-        return findCreaturePosition(activeCreature).distance(new Point(x, y)) == 1;
+        boolean distanceAllow = findCreaturePosition(activeCreature).distance(new Point(x, y)) == 1;
+        return distanceAllow && board.get(new Point(x,y)).isAttackPossible();
     }
 
     public void pass() {
