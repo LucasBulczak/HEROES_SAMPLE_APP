@@ -1,8 +1,8 @@
 package pl.sdk.gui;
 
-public class TrainingGround {
+public class DamageCalculator {
 
-    public int countDamageToDeal(Creature aAttacker, Creature aDefender) {
+    int calculateDamageToDeal(Creature aAttacker, Creature aDefender) {
         int damageToDeal = (aAttacker.getAttack() - aDefender.getArmor()) * aAttacker.getAmount();
         if (damageToDeal < 0) {
             damageToDeal = 0;
@@ -12,7 +12,7 @@ public class TrainingGround {
         return damageToDeal;
     }
 
-    public int considerElementalMechanic(Creature aAttacker, Creature aDefender, int damageToDeal) {
+    private int considerElementalMechanic(Creature aAttacker, Creature aDefender, int damageToDeal) {
         if (aAttacker.getName().equals("Water Elemental")) {
             if (aDefender.getName().equals("Fire Elemental")) {
                 damageToDeal = damageToDeal * 2;

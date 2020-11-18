@@ -11,7 +11,7 @@ public class Creature {
     private int currentHp;
     private final int moveRange;
     private boolean counterAttack;
-    private TrainingGround trainingGround;
+    private DamageCalculator damageCalculator;
 
     public Creature(int aMaxHp, Integer aAttack, Integer aArmor, String aName, int aMoveRange, int aAmount) {
         maxHp = aMaxHp;
@@ -21,12 +21,12 @@ public class Creature {
         currentHp = maxHp;
         name = aName;
         moveRange = aMoveRange;
-        trainingGround = new TrainingGround();
+        damageCalculator = new DamageCalculator();
     }
 
     public void attack(Creature aDefender) {
         if (isAlive()) {
-            int damageToDeal = trainingGround.countDamageToDeal(this, aDefender);
+            int damageToDeal = damageCalculator.calculateDamageToDeal(this, aDefender);
             applyDamage(aDefender, damageToDeal);
 
             // counterattack
@@ -36,7 +36,7 @@ public class Creature {
 
     protected void counterattack(Creature aDefender) {
         if (canCounterAttack(aDefender)) {
-            int damageToDealInCounterAttack = trainingGround.countDamageToDeal(aDefender, this);
+            int damageToDealInCounterAttack = damageCalculator.calculateDamageToDeal(aDefender, this);
             applyDamage(this, damageToDealInCounterAttack);
             counterAttack = true;
         }
