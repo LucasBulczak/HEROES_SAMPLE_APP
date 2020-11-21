@@ -17,4 +17,10 @@ class BoardTest {
         assertEquals(creature, creatureFromBoard);
     }
 
+    @Test
+    void shouldReturnNullWhenFieldIsEmpty() {
+        Board board = new Board();
+        Creature creatureFromBoard = board.get(0, 0);
+        assertNull(creatureFromBoard);
+    }
 }

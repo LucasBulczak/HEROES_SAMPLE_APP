@@ -15,6 +15,6 @@ public class Board {
     }
 
     Creature get(int aX, int aY) {
-        return map.getOrDefault(new Point(aX, aY), null);
+        return map.get(new Point(aX, aY));
     }
 }
