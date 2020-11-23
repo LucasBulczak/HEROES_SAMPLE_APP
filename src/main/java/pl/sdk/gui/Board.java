@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Board {
+    public static final int WIDTH = 20;
+    public static final int HEIGHT = 15;
+
     private final Map<Point, Creature> map;
 
     Board() {
@@ -27,8 +30,15 @@ public class Board {
     }
 
     private void throwExceptionWhenFieldIsTaken(Point aPoint) {
-        if (map.containsKey(aPoint)) {
+        if (!isOnBoard(aPoint) || map.containsKey(aPoint)) {
             throw new IllegalArgumentException("You cannot place the creature on a non-empty field!");
         }
+    }
+
+    private boolean isOnBoard(Point aPoint) {
+        return aPoint.getX() >= 0 &&
+                aPoint.getX() <= WIDTH &&
+                aPoint.getY() >= 0 &&
+                aPoint.getY() <= HEIGHT;
     }
 }
