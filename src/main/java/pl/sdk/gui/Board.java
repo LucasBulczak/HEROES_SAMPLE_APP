@@ -20,4 +20,10 @@ public class Board {
     Creature get(int aX, int aY) {
         return map.get(new Point(aX, aY));
     }
+
+    void move(Point from, Point to) {
+        Creature creatureFromSourcePoint = map.get(from);
+        map.remove(from);
+        add(to, creatureFromSourcePoint);
+    }
 }
