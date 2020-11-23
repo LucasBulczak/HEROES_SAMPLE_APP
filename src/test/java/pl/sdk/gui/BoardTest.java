@@ -32,7 +32,7 @@ class BoardTest {
     }
 
     @Test
-    void shouldXWhenYouAddCreatureToNotEmptyField() {
+    void shouldIllegalArgumentExceptionWhenYouAddCreatureToNotEmptyField() {
         board.add(new Point(0, 0), creature);
         Creature creature2 = new Creature(10, 1, 1, "Creature 2", 1, 10);
 

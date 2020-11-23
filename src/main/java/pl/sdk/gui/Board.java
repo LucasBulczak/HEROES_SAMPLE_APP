@@ -11,6 +11,9 @@ public class Board {
     }
 
     void add(Point aPoint, Creature aCreature) {
+        if (map.containsKey(aPoint)) {
+            throw new IllegalArgumentException("You cannot place the creature on a non-empty field!");
+        }
         map.put(aPoint, aCreature);
     }
 
