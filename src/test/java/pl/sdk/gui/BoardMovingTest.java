@@ -15,7 +15,6 @@ public class BoardMovingTest {
         board = new Board();
         creature = new Creature(10, 1, 1, "Creature", 1, 10);
         board.add(new Point(0, 0), creature);
-        board.add(new Point(0, 0), creature);
     }
 
     @Test
@@ -29,10 +28,10 @@ public class BoardMovingTest {
 
     @Test
     void shouldThrowExceptionWhenCreatureTryingToMoveToNotEmptyField() {
-        board.add(new Point(0, 0), new Creature(10, 1, 1, "Creature2", 1, 10));
+        board.add(new Point(0, 1), new Creature(10, 1, 1, "Creature2", 1, 10));
 
         assertThrows(IllegalArgumentException.class, () -> board.move(new Point(0, 0), new Point(0, 1)));
-        
+
         Creature creatureFromBoard = board.get(0, 0);
         assertEquals(creature, creatureFromBoard);
     }

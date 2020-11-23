@@ -11,9 +11,7 @@ public class Board {
     }
 
     void add(Point aPoint, Creature aCreature) {
-        if (map.containsKey(aPoint)) {
-            throw new IllegalArgumentException("You cannot place the creature on a non-empty field!");
-        }
+        throwExceptionWhenFieldIsTaken(aPoint);
         map.put(aPoint, aCreature);
     }
 
@@ -22,8 +20,15 @@ public class Board {
     }
 
     void move(Point from, Point to) {
+        throwExceptionWhenFieldIsTaken(to);
         Creature creatureFromSourcePoint = map.get(from);
         map.remove(from);
-        add(to, creatureFromSourcePoint);
+        map.put(to, creatureFromSourcePoint);
+    }
+
+    private void throwExceptionWhenFieldIsTaken(Point aPoint) {
+        if (map.containsKey(aPoint)) {
+            throw new IllegalArgumentException("You cannot place the creature on a non-empty field!");
+        }
     }
 }
