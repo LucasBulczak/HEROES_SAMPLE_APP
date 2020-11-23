@@ -35,10 +35,8 @@ class BoardTest {
     void shouldXWhenYouAddCreatureToNotEmptyField() {
         board.add(new Point(0, 0), creature);
         Creature creature2 = new Creature(10, 1, 1, "Creature 2", 1, 10);
-        board.add(new Point(0, 0), creature2);
 
-        Creature creatureFromBoard = board.get(0, 0);
-
-        assertEquals(creature, creatureFromBoard);
+        assertThrows(IllegalArgumentException.class,
+                () -> board.add(new Point(0, 0), creature2));
     }
 }
